@@ -40,23 +40,23 @@ jQuery(function($) {
     }
   }
 
-	var App = {
-		init: function() {
-		  App.todos = store("todos-jquery");
-		  App.todoTemplate = Handlebars.compile($("#todo-template").html());
-		  App.footerTemplate = Handlebars.compile($("#footer-template").html());
-		  bindEvents();
-	
-		//   new Router({
-		// 	"/:filter": function(filter) {
-		// 	  App.filter = filter;
-		// 	  render();
-		// 	}.bind(this)
-		//   }).init("/all");
-		}
-	  };
+    var App = [];
 
-	App.init();
+    function init () {
+      App.todos = store("todos-jquery");
+      App.todoTemplate = Handlebars.compile($("#todo-template").html());
+      App.footerTemplate = Handlebars.compile($("#footer-template").html());
+
+      new Router({
+			"/:filter": function(filter) {
+			  App.filter = filter;
+			  render();
+			}.bind(this)
+		  }).init("/all");
+
+      return [App.todos, App.todoTemplate, App.footerTemplate, bindEvents()];
+    }
+   
 
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -221,5 +221,6 @@ jQuery(function($) {
     render();
   }
 
+  init();
   
 });
